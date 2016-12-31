@@ -1,0 +1,27 @@
+{
+  "name": "radr-chew-messages",
+  "version": "1.0.0",
+  "description": "Scrape songs from RADR and post them as messages to Chew",
+  "main": "watch_songs.js",
+  "dependencies": {
+    "async": "^2.1.4",
+    "cheerio": "^0.22.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "yargs": "^6.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/millar/radr-chew-messages.git"
+  },
+  "author": "Sam Millar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/millar/radr-chew-messages/issues"
+  },
+  "homepage": "https://github.com/millar/radr-chew-messages#readme"
+}
