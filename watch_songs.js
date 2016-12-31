@@ -21,7 +21,7 @@ var apiUrl = 'https://api.chew.tv/v1'
   , user, show, radrUrl, matchedTrackCount = 0
 
 // Validate API key
-request.get({url: `${apiUrl}/users/me`, qs: {key: argv.k}}).then(response => {
+request.get({url: `${apiUrl}/users/me`, qs: {key: argv.k}, json: true}).then(response => {
   user = response.user
 
   findChewShow().then(result => {
@@ -30,23 +30,31 @@ request.get({url: `${apiUrl}/users/me`, qs: {key: argv.k}}).then(response => {
     findRadrPlaylist().then(url => {
       radrUrl = url
 
-      console.log(`Attaching most recent RADR playlist songs to show: ${show.name}`)
+      console.log(`Watching most recent RADR playlist songs for show: ${show.name}`)
 
-      loadPlaylistTracks().then(tracks => {
-        let newTracks = tracks.slice(matchedTrackCount)
+      function checkForTracks() {
+        console.log(`Checking for tracks...`)
 
-        async.eachSeries(newTracks, (track, callback) => {
-          matchedTrackCount++
+        loadPlaylistTracks().then(tracks => {
+          let newTracks = tracks.slice(matchedTrackCount)
 
-          let message = `Now Playing: ${track.artist} - ${track.title}`
+          console.log(`${newTracks.length} new tracks found`)
 
-          sendMessage(message).then(() => callback()).reject(err => callback(err))
+          matchedTrackCount += newTracks.length
+
+          async.eachSeries(newTracks, (track, callback) => {
+            let message = `Now Playing: ${track.artist} - ${track.title}`
+
+            sendMessage(message).then(() => callback()).reject(err => callback(err))
+          })
+        }, error => {
+          if (error) {
+            console.error(`ERROR: ${error}`)
+          }
         })
-      }, error => {
-        if (error) {
-          console.error(`ERROR: ${error}`)
-        }
-      })
+      }
+
+      setInterval(checkForTracks, 30000)
     })
   }, error => {
     console.error(`ERROR: ${error}`)
@@ -62,13 +70,13 @@ function findChewShow() {
     // Validate show (if given)
     if (argv.s) {
       let lastSegment = argv.s.split('/').pop()
-      request.get({url: `${apiUrl}/users/me/shows`, qs: {slug: lastSegment}}).then(response => {
+      request.get({url: `${apiUrl}/users/me/shows`, qs: {slug: lastSegment, key: argv.k}, json: true}).then(response => {
         let shows = response.shows
 
         if (response.shows.length && response.shows[0].slug == lastSegment) {
           let show = response.shows[0]
 
-          if (show.user_id != user.id) {
+          if (show.user.id != user.id) {
             reject(`Specified show is not yours!`)
           }
 
@@ -77,7 +85,7 @@ function findChewShow() {
           reject(`Show matching slug '${lastSegment}' not found`)
         }
       }, error => {
-        reject(`Incorrect API key`)
+        reject(`Chew show not found`)
       })
     } else {
       request.get({url: `${apiUrl}/users/me/shows`, qs: {key: argv.k, live: true}, json: true}).then(response => {

@@ -3,19 +3,19 @@ radr-chew-messages
 
 A node.js demon designed to scrape tracks from RADR playlists and send track info as messages on a specified Chew show.
 
+## Requirements
+- node.js v6+
 
 ## Installation
 ```sh
 git clone https://github.com/millar/radr-chew-messages
 cd radr-chew-messages
 chmod +x watch_songs.js
-
-# Usage: ./watch_songs.js -u [radr user id] -k [chew api key]
 ```
 
 ## Usage
 ```sh
-Usage: watch_songs.js -u [radr user id] -k [chew api key]
+Usage: ./watch_songs.js -u [radr user id] -k [chew api key]
 
 Options:
   -u, --user_id   RADR user ID (as found at end of profile URL)       [required]
@@ -25,5 +25,5 @@ Options:
   -h, --help      Show help                                            [boolean]
 
 Examples:
-  watch_songs.js -u 2239 -k euWdUdETF3Vt74hRvYIENX8flysPiqGiGCrEsmVI
+  ./watch_songs.js -u 2239 -k euWdUdETF3Vt74hRvYIENX8flysPiqGiGCrEsmVI
 ```
