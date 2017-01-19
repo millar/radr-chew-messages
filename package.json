@@ -1,8 +1,8 @@
 {
   "name": "radr-chew-messages",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Scrape songs from RADR and post them as messages to Chew",
-  "main": "watch_songs.js",
+  "main": "bin/chew-radr.js",
   "dependencies": {
     "async": "^2.1.4",
     "cheerio": "^0.22.0",
