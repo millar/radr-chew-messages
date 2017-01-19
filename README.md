@@ -10,12 +10,12 @@ A node.js demon designed to scrape tracks from RADR playlists and send track inf
 ```sh
 git clone https://github.com/millar/radr-chew-messages
 cd radr-chew-messages
-chmod +x watch_songs.js
+chmod +x bin/chew-radr.js
 ```
 
 ## Usage
 ```sh
-Usage: ./watch_songs.js -u [radr user id] -k [chew api key]
+Usage: ./bin/chew-radr.js -u [radr user id] -k [chew api key]
 
 Options:
   -u, --user_id   RADR user ID (as found at end of profile URL)       [required]
@@ -25,5 +25,5 @@ Options:
   -h, --help      Show help                                            [boolean]
 
 Examples:
-  ./watch_songs.js -u 2239 -k euWdUdETF3Vt74hRvYIENX8flysPiqGiGCrEsmVI
+  ./bin/chew-radr.js -u 2239 -k euWdUdETF3Vt74hRvYIENX8flysPiqGiGCrEsmVI
 ```
